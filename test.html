@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+   <head>
+
+      <title>KnockoutJS Task</title>
+
+      <script src = "https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.1.0.js" 
+         type = "text/javascript"></script>
+
+         <style>
+            table, th, td {
+               border: 1px solid black;
+               padding: 10px;
+               }
+         </style>
+   </head>
+
+   <body>
+
+    <form action="" method="" style="display: block; padding: 20px; margin: 20px;">
+
+      <label>First Name :</label> <input type="text" name="firstName" placeholder="Enter Your First Name" data-bind = "value: firstString" />
+      <br><br>
+
+      <label>Last Name :</label> <input type="text" name="lastName" placeholder="Enter Your Last Name" data-bind = "value: secondString" />
+      <br><br>
+
+      <label>prefix :</label> <select data-bind="options: available, selectedOptions: prefix"></select>
+      <br><br>
+
+      <label>Gender :</label> <input type="radio" name="gender" value="male" data-bind="checked: gender">male <input type="radio" name="gender" value="female" data-bind="checked: gender"> female
+      <input type="radio" name="gender" value="others" data-bind="checked: gender"> others
+      <br><br>
+
+      <label>Hobbies :</label> <input type="checkbox" value="Listening Music" name="Listening_Music" data-bind="checked: Hobbies">Listening Music
+        <input type="checkbox" value="Reading Books" name="Reading_Books" data-bind="checked: Hobbies">Reading Books
+        <input type="checkbox" value="Playing" name="Playing" data-bind="checked: Hobbies">Playing
+        <br><br>
+
+
+        <label>Phone Number : </label><input type="text" placeholder="Enter Your Mobile Number" name="mobile" maxlength="10" pattern="[0-9]{10}"  data-bind="value: mobile">
+        <br><br>
+
+
+        <label>Address : </label><label>Country </label><select data-bind="options: country, selectedOptions: chosenCountries"></select>
+        <p data-bind="visible: chosenCountries()=='india'||chosenCountries()=='nepal'||chosenCountries()=='pakistan'||chosenCountries()=='china'">
+        <label> State </label><input type="text" name="state" placeholder="Enter Your State" data-bind="value: state">
+        </p>
+        <br><br>
+
+
+        <input type="button" value="Submit">
+      </form>
+
+
+
+
+      <table>
+         <caption>Data Table</caption>
+         <tr>
+            <th>lastName</th>
+            <th>firstName</th>
+            <th>prefix</th>
+            <th>Gender</th>
+            <th>Hobbies</th>
+            <th>Number</th>
+            <th>Country</th>
+            <th>State</th>
+            <th>Action</th>
+         </tr>
+         <tr>
+            <td data-bind = "text: secondString"></td>
+            <td data-bind = "text: firstString"></td>
+            <td data-bind="text: prefix"></td>
+            <td data-bind="text: selectedgender"></td>
+            <td data-bind="text: selectedHobbies"></td>
+            <td data-bind="text: mobile"></td>
+            <td data-bind="text: chosenCountries"></td>
+            <td data-bind="text: state"></td>
+            <td><button data-bind="click: del">Delete</button></td>
+         </tr>
+      </table>
+
+
+
+      <script>
+        //  <!-- This is called "viewmodel". This javascript section defines the data and 
+        //     behavior of UI -->
+
+         function AppViewModel() {
+
+            this.firstString = ko.observable();
+            this.secondString = ko.observable();
+            this.gender = ko.observable();
+
+            this.selectedgender = ko.computed(function(){
+                return this.gender();
+            }, this);
+
+            this.state = ko.observable();
+
+            this.mobile = ko.observable();
+
+            this.available =  ko.observableArray(['Choose','Mr.','Mrs.','Miss.']);
+            this.prefix = ko.observable();
+
+            this.Hobbies = ko.observableArray(['']);
+
+            this.selectedHobbies = ko.computed(function(){
+                return this.Hobbies();
+            }, this);
+
+         
+
+            this.country = ko.observableArray(['choose one','india','china','pakistan','nepal']);
+            this.chosenCountries = ko.observable();
+
+            this.del = function(){
+               this.Hobbies('');
+               this.prefix('');
+               this.state('');
+               this.firstString('');
+               this.secondString('');
+               this.gender('');
+               this.mobile('');
+               this.country('');
+            }
+           
+
+
+         }
+
+         // Activates knockout.js
+         ko.applyBindings(new AppViewModel());
+
+      </script>
+
+   </body>
+</html>
